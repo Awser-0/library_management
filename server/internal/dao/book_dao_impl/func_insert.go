@@ -1,4 +1,4 @@
-package userdaoimpl
+package bookdaoimpl
 
 import (
 	"library/internal/model/entity"
@@ -6,8 +6,8 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 )
 
-func (*UserDao) InsertUser(user entity.User) bool {
-	result, err := g.Model("user").FieldsEx("id", "update_time", "create_time").Data(user).Insert()
+func (*BookDaoImpl) InsertBook(book entity.Book) bool {
+	result, err := g.Model("book").FieldsEx("uuid", "update_time", "create_time").Data(book).Insert()
 	if err != nil {
 		panic(err)
 	}

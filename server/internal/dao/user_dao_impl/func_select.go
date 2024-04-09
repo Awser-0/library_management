@@ -6,7 +6,7 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 )
 
-func (*UserDao) SelectUserById(id int64) *entity.User {
+func (*UserDaoImpl) SelectUserById(id int64) *entity.User {
 	var user *entity.User
 	if result, err := g.Model("user").Where(g.Map{"id": id}).One(); err != nil {
 		panic(err)
@@ -16,7 +16,7 @@ func (*UserDao) SelectUserById(id int64) *entity.User {
 	return user
 }
 
-func (*UserDao) SelectUserByUsername(username string) *entity.User {
+func (*UserDaoImpl) SelectUserByUsername(username string) *entity.User {
 	var user *entity.User
 	if result, err := g.Model("user").Where(g.Map{"username": username}).One(); err != nil {
 		panic(err)

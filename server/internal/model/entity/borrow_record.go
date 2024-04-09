@@ -1,6 +1,8 @@
 package entity
 
-import "time"
+import (
+	"time"
+)
 
 // state: 申请借阅状态[ apply | cancel | reject | borrow | return ]
 const (
@@ -14,7 +16,7 @@ const (
 type BorrowRecord struct {
 	Id         int64      `orm:"id"`
 	UserId     int64      `orm:"user_id"`
-	BookUUID   string     `orm:"book_uuid"`
+	BookUUID   int64      `orm:"book_uuid"`
 	State      string     `orm:"state"`
 	BorrowTime *time.Time `orm:"borrow_time"`
 	ReturnTime *time.Time `orm:"return_time"`

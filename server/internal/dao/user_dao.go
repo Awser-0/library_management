@@ -1,7 +1,7 @@
 package dao
 
 import (
-	userdaoimpl "library/internal/dao/user_dao"
+	userdaoimpl "library/internal/dao/user_dao_impl"
 	"library/internal/model/entity"
 )
 
@@ -14,6 +14,5 @@ type IUserDao interface {
 }
 
 func NewUserDao() IUserDao {
-	var u = userdaoimpl.New()
-	return &u
+	return userdaoimpl.New()
 }
