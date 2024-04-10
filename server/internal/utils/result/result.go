@@ -1,5 +1,7 @@
 package result
 
+import "github.com/gogf/gf/v2/net/ghttp"
+
 type Result struct {
 	code int
 	msg  string
@@ -30,4 +32,8 @@ func New(code int, msg string, data any) Result {
 		msg:  msg,
 		data: data,
 	}
+}
+
+func (res Result) ToWriteJson(req *ghttp.Request) {
+	req.Response.WriteJson(res.ToMap())
 }

@@ -11,4 +11,8 @@ var (
 	UserNotFound = newByCM(11001, "用户不存在")
 	UserExists   = newByCM(11002, "用户已存在")
 	UserFailPass = newByCM(11005, "账号或密码错误")
+
+	BookNotFound = newByCM(12001, "书籍不存在")
+
+	BorrowRecordNotFound = newByCM(13001, "借阅记录不存在")
 )

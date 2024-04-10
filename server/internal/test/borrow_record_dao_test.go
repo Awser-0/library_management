@@ -32,7 +32,7 @@ func Test_BorrowRecordDao_Insert(t *testing.T) {
 			UserId:     1,
 			BookUUID:   10000002,
 			State:      entity.BorrowRecordStateApply,
-			BorrowTime: nil,
+			ReplyTime:  nil,
 			ReturnTime: nil,
 			ApplyDesc:  "想看",
 			ReplyDesc:  "",

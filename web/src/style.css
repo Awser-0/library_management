@@ -1,0 +1,46 @@
+/* :root {
+	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	line-height: 1.5;
+	font-weight: 400;
+
+	color-scheme: light dark;
+	color: rgba(255, 255, 255, 0.87);
+	background-color: #242424;
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+} */
+* {
+	margin: 0;
+	padding: 0;
+	font-size: inherit;
+	color: inherit;
+}
+.bounce_move_from_right {
+	animation: bounce_move_from_right 0.8s ease-out;
+}
+@keyframes bounce_move_from_right {
+	0% {
+		opacity: 0;
+		transform: translateX(440px);
+	}
+	40% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+	50% {
+		transform: translateX(10px);
+	}
+	60% {
+		transform: translateX(0);
+	}
+	70% {
+		transform: translateX(2px);
+	}
+	80%,
+	100% {
+		transform: translateX(0);
+	}
+}

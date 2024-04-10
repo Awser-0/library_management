@@ -1,7 +1,10 @@
 package utils
 
 import (
+	"context"
 	"errors"
+	"library/internal/consts"
+	"library/internal/model/do"
 	"math/rand"
 	"time"
 
@@ -9,7 +12,7 @@ import (
 )
 
 type CustomClaims struct {
-	User int64
+	AuthUser do.AuthUser
 	jwt.RegisteredClaims
 }
 
@@ -28,14 +31,14 @@ func randString(str_len int) string {
 }
 
 // 生成token
-func GenerateTokenUsingHs256(user int64) (string, error) {
+func GenerateTokenUsingHs256(authUser do.AuthUser) (string, error) {
 	claim := CustomClaims{
-		User: user,
+		AuthUser: authUser,
 		RegisteredClaims: jwt.RegisteredClaims{
-			Issuer:    "Auth_Server",                                 // 签发者
-			Subject:   "Tom",                                         // 签发对象
-			Audience:  jwt.ClaimStrings{"Android_APP", "IOS_APP"},    //签发受众
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)), //过期时间
+			Issuer:    "Auth_Server",                                           // 签发者
+			Subject:   "Tom",                                                   // 签发对象
+			Audience:  jwt.ClaimStrings{"Android_APP", "IOS_APP"},              //签发受众
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 24 * 30)), //过期时间
 			// NotBefore: jwt.NewNumericDate(time.Now().Add(time.Second)), //最早使用时间
 			IssuedAt: jwt.NewNumericDate(time.Now()), //签发时间
 			ID:       randString(10),                 // wt ID, 类似于盐值
@@ -64,4 +67,16 @@ func ParseTokenHs256(token_string string) (*CustomClaims, error) {
 	}
 
 	return claims, nil
+}
+
+// 从请求中获取authUser
+func GetAuthUserFromCtx(ctx context.Context) do.AuthUser {
+	value := ctx.Value(consts.CTX_VAR_KEY_AUTH_USER)
+	err := errors.New("GetAuthUserFromCtx获取AuthUser为空")
+	if value != nil {
+		if authUser, ok := value.(do.AuthUser); ok {
+			return authUser
+		}
+	}
+	panic(err)
 }

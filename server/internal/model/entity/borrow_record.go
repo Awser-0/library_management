@@ -18,7 +18,7 @@ type BorrowRecord struct {
 	UserId     int64      `orm:"user_id"`
 	BookUUID   int64      `orm:"book_uuid"`
 	State      string     `orm:"state"`
-	BorrowTime *time.Time `orm:"borrow_time"`
+	ReplyTime  *time.Time `orm:"reply_time"`
 	ReturnTime *time.Time `orm:"return_time"`
 	ApplyDesc  string     `orm:"apply_description"`
 	ReplyDesc  string     `orm:"reply_description"`
