@@ -18,6 +18,15 @@
 	font-size: inherit;
 	color: inherit;
 }
+a {
+	text-decoration: none;
+}
+
+li {
+	list-style: none;
+}
+
+
 .bounce_move_from_right {
 	animation: bounce_move_from_right 0.8s ease-out;
 }

@@ -45,5 +45,6 @@ module.exports = {
 		],
 		// 解决不让用any类型
 		"@typescript-eslint/no-explicit-any": ["off"],
+		"vue/multi-word-component-names": "off",
 	},
 };

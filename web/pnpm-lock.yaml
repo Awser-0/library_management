@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@element-plus/icons-vue': ^2.3.1
   '@types/node': ^20.12.2
   '@typescript-eslint/eslint-plugin': ^7.5.0
   '@typescript-eslint/parser': ^7.5.0
@@ -18,13 +19,16 @@ specifiers:
   unplugin-vue-components: ^0.26.0
   vite: ^5.2.0
   vue: ^3.4.21
+  vue-router: ^4.3.0
   vue-tsc: ^2.0.6
 
 dependencies:
+  '@element-plus/icons-vue': 2.3.1_vue@3.4.21
   axios: 1.6.8
   element-plus: 2.6.3_vue@3.4.21
   pinia: 2.1.7_4avrvl2q2ps4ohrrbmdqibj6mu
   vue: 3.4.21_typescript@5.4.3
+  vue-router: 4.3.0_vue@3.4.21
 
 devDependencies:
   '@types/node': 20.12.2
@@ -2216,6 +2220,15 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /vue-router/4.3.0_vue@3.4.21:
+    resolution: {integrity: sha512-dqUcs8tUeG+ssgWhcPbjHvazML16Oga5w34uCUmsk7i0BcnskoLGwjpa15fqMr2Fa5JgVBrdL2MEgqz6XZ/6IQ==}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      '@vue/devtools-api': 6.6.1
+      vue: 3.4.21_typescript@5.4.3
+    dev: false
 
   /vue-template-compiler/2.7.16:
     resolution: {integrity: sha512-AYbUWAJHLGGQM7+cNTELw+KsOG9nl2CnSv467WobS5Cv9uk3wFcnr1Etsz2sEIHEZvw1U+o9mRlEO6QbZvUPGQ==}

@@ -1,6 +1,7 @@
-export { login };
+export { login, loginByToken };
 
 import { request } from "./request";
+import * as consts from "~/consts";
 import type { Result } from "./request";
 
 type LoginResult = {
@@ -22,5 +23,15 @@ async function login(username: string, password: string) {
 		url: "/v1/user/login",
 		method: "POST",
 		data: { username, password },
+	});
+}
+
+async function loginByToken(token: string) {
+	return request<Result<LoginResult>>({
+		url: "/v1/user/login/token",
+		method: "POST",
+		headers: {
+			[consts.REQUEST_HEADER_KEY_TOKEN]: token,
+		},
 	});
 }
