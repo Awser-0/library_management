@@ -44,6 +44,10 @@ var (
 					var adminRouter = group.Middleware(middleware.MiddlewareAuth(true))
 					adminRouter.POST("/upload/image", func(r *ghttp.Request) {
 						file := r.GetUploadFile("upload-file")
+						if file == nil {
+							result.Fail.SetMsg("上传失败").ToWriteJson(r)
+							return
+						}
 						if file.Size/1024/1024 >= 20 {
 							result.Fail.SetMsg("图片大小不能超过20MB").ToWriteJson(r)
 							return
@@ -82,6 +86,7 @@ var (
 					}
 					var adminRouter = v1book.Middleware(middleware.MiddlewareAuth(true))
 					{
+						adminRouter.POST("/add", c.BookAdd())
 						adminRouter.POST("/borrow/agree", c.BorrowAgree())
 						adminRouter.POST("/borrow/reject", c.BorrowReject())
 						adminRouter.POST("/borrow/return", c.BorrowReturn())

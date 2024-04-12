@@ -1,7 +1,7 @@
 export { router, RouterName };
 
 import { createRouter, createWebHashHistory } from "vue-router";
-import type { RouteRecordRaw } from "vue-router";
+import type { RouteRecordRaw, RouteRecordName } from "vue-router";
 import * as pages from "~/pages";
 import * as stores from "~/stores";
 import * as consts from "~/consts";
@@ -12,6 +12,7 @@ const RouterName = {
 	Home: "Home",
 	StatisPage: "StatisPage",
 	BookPage: "BookPage",
+	HomeIndex: "HomeIndex",
 };
 
 const routes: RouteRecordRaw[] = [
@@ -19,16 +20,22 @@ const routes: RouteRecordRaw[] = [
 		path: "/",
 		name: RouterName.Home,
 		component: pages.Home,
+		meta: { isMustLogin: true },
 		children: [
 			{
+				path: "",
+				name: RouterName.HomeIndex,
+				redirect: "book",
+			},
+			{
 				path: "book",
-				component: pages.HomeVues.Book,
 				name: RouterName.BookPage,
+				component: pages.HomeVues.Book,
 			},
 			{
 				path: "statis",
-				component: pages.HomeVues.Statis,
 				name: RouterName.StatisPage,
+				component: pages.HomeVues.Statis,
 			},
 		],
 	},
@@ -65,12 +72,19 @@ async function autoLogin() {
 	}
 	return false;
 }
-
+let wantToName: RouteRecordName | null | undefined = "";
 router.beforeEach(async (to, from) => {
+	console.log("to", to);
+	console.log("from", from);
+	console.log(to.name);
+	console.log(to.meta);
+
 	const userStore = stores.userUserStore();
-	if (to.name != RouterName.Login && !userStore.isLogin) {
-		if (await autoLogin()) return true;
+	if (to.meta.isMustLogin && !userStore.isLogin) {
+		wantToName = to.name;
+		if (await autoLogin()) return { name: wantToName as string };
 		else return { name: RouterName.Login };
 	}
+	// await autoLogin();
 	return true;
 });

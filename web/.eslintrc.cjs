@@ -3,6 +3,10 @@ module.exports = {
 		browser: true,
 		es2021: true,
 	},
+	globals: {
+		// 全局变量
+		ElMessage: "readonly",
+	},
 	extends: [
 		"eslint:recommended",
 		"plugin:@typescript-eslint/recommended",

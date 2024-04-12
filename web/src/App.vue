@@ -16,14 +16,14 @@ const userStore = stores.userUserStore();
 let a: number = 10;
 onBeforeMount(() => {});
 onMounted(() => {
-	userApi
-		.login("u1", "1234")
-		.then(({ data: result }) => {
-			console.log("result", result);
-		})
-		.catch((err) => {
-			console.log("err", err);
-		});
+	// userApi
+	// 	.login("u1", "1234")
+	// 	.then(({ data: result }) => {
+	// 		console.log("result", result);
+	// 	})
+	// 	.catch((err) => {
+	// 		console.log("err", err);
+	// 	});
 });
 </script>
 

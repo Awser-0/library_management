@@ -1,4 +1,4 @@
-export { queryBooks };
+export { queryBooks, addBook };
 
 import { request } from "./request";
 import * as consts from "~/consts";
@@ -21,5 +21,20 @@ async function queryBooks(query_string: string) {
 		url: "/v1/book/query",
 		method: "POST",
 		data: { query_string },
+	});
+}
+
+async function addBook(info: {
+	title: string;
+	author: string;
+	cover: string;
+	introduction: string;
+	publish_time: Date | null;
+	total: number;
+}) {
+	return request<Result>({
+		url: "/v1/book/add",
+		method: "POST",
+		data: { ...info },
 	});
 }

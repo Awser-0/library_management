@@ -4,10 +4,12 @@ import (
 	"library/internal/model/entity"
 	"library/internal/service/book_service"
 	"library/internal/utils/result"
+	"time"
 )
 
 type IBookService interface {
 	BookQuery(queryString string) []entity.Book
+	BookAdd(title, author, cover, introduction string, publishTime *time.Time, total int) bool
 	BorrowAgree(recordId int64, desc string) (bool, *result.Result)
 	BorrowApply(bookUUID, userID int64, desc string) (bool, *result.Result)
 	BorrowReject(recordId int64, desc string) (bool, *result.Result)
