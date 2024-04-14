@@ -1,15 +1,32 @@
 <template>
 	<div class="book-page">
 		<div class="book-operate">
-			<el-button type="primary" size="large" @click="bookAddVisible = true">添加</el-button>
+			<div class="operate_left">
+				<el-input
+					v-model="form.queryString"
+					style="max-width: 300px"
+					placeholder="请输入查询字符"
+					class="input-query"
+				>
+					<template #append>
+						<el-button :icon="Search" @click="query" />
+					</template>
+				</el-input>
+			</div>
+			<div class="operate_right">
+				<el-button type="primary" size="large" @click="bookAddVisible = true">添加</el-button>
+			</div>
 		</div>
 		<ul class="book-list">
 			<li class="book" v-for="book in books" :key="book.uuid">
-				<div class="cover"><img :src="book.cover" /></div>
+				<div class="cover">
+					<img :src="book.cover" />
+					<el-icon class="editIcon" @click="showBookEdit(book.uuid)"><Edit /></el-icon>
+				</div>
 				<div class="info">
 					<div class="title">{{ book.title }}</div>
 					<div class="author">作者：{{ book.author }}</div>
-					<div class="introduction">简介：{{ book.introduction }}</div>
+					<div class="introduction" :title="book.introduction">简介：{{ book.introduction }}</div>
 				</div>
 			</li>
 			<i></i>
@@ -19,17 +36,27 @@
 			<i></i>
 			<i></i>
 		</ul>
-		<BookAddVue :visible="bookAddVisible" @close="bookAddVisible = false" />
+		<BookAddVue :visible="bookAddVisible" @close="bookAddVisible = false" @add-after="queryBooks" />
+		<BookEditVue
+			:visible="bookEditForm.visible"
+			:uuid="bookEditForm.uuid"
+			@close="bookEditForm.visible = false"
+			@edit-after="queryBooks"
+		/>
 	</div>
 </template>
 
 <script setup lang="ts">
 import BookAddVue from "./BookAdd.vue";
+import BookEditVue from "./BookEdit.vue";
 import { ref, reactive, onMounted } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
+import { Edit, Search } from "@element-plus/icons-vue";
 import * as stores from "~/stores";
 import { bookApi } from "~/apis";
 import { router, RouterName } from "~/router";
+
+const form = reactive({ queryString: "" });
 
 type BookInfo = {
 	uuid: number;
@@ -41,10 +68,23 @@ type BookInfo = {
 
 const books = ref<BookInfo[]>([]);
 const bookAddVisible = ref(false);
-bookAddVisible.value = true;
+// bookAddVisible.value = true;
+const bookEditForm = reactive({
+	visible: false,
+	uuid: 0,
+});
 
-onMounted(() => {
-	bookApi.queryBooks("").then(({ data: result }) => {
+function showBookEdit(uuid: number) {
+	bookEditForm.uuid = uuid;
+	bookEditForm.visible = true;
+}
+
+async function query() {
+	await queryBooks(form.queryString);
+}
+
+async function queryBooks(queryString: string = "") {
+	return await bookApi.queryBooks(queryString).then(({ data: result }) => {
 		if (result.code == 10200) {
 			books.value = result.data.books.map((item) => {
 				const cover = item.cover != "" ? import.meta.env.VITE_IMAGE_BASE_URL + item.cover : "";
@@ -58,6 +98,10 @@ onMounted(() => {
 			});
 		}
 	});
+}
+
+onMounted(() => {
+	queryBooks();
 });
 </script>
 
@@ -67,7 +111,11 @@ onMounted(() => {
 	height: 2000px;
 }
 .book-operate {
-	text-align: right;
+	display: flex;
+	justify-content: space-between;
+	.operate_left {
+		margin-left: 30px;
+	}
 }
 .book-operate :deep(.el-button) {
 	text-align: right;
@@ -91,11 +139,21 @@ onMounted(() => {
 			flex-shrink: 0;
 			width: 160px;
 			height: 200px;
+			position: relative;
 			margin-right: 20px;
 			background: #cdcdcd;
 			img {
 				width: 100%;
 				height: 100%;
+			}
+			.editIcon {
+				width: fit-content;
+				position: absolute;
+				top: 6px;
+				right: 6px;
+				margin: 0;
+				font-size: 26px;
+				cursor: pointer;
 			}
 		}
 		.info {
@@ -123,7 +181,7 @@ onMounted(() => {
 				-webkit-box-orient: vertical;
 			}
 			.introduction {
-				padding: 4px 0;
+				margin: 4px 0;
 				line-height: 1.2em;
 				white-space: pre-wrap;
 				word-break: break-all;

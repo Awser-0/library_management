@@ -6,7 +6,8 @@ import (
 )
 
 type IUserDao interface {
-	SelectUserById(id int64) *entity.User
+	SelectUser(id int64) *entity.User
+	SelectUsersByQuery(query string) []entity.User
 	SelectUserByUsername(username string) *entity.User
 	InsertUser(user entity.User) bool
 	UpdateUser(id int64, user entity.User) bool

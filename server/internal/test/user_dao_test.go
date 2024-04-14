@@ -23,7 +23,7 @@ func Test_Select(t *testing.T) {
 	})
 
 	gtest.C(t, func(t *gtest.T) {
-		var user = userDao.SelectUserById(1)
+		var user = userDao.SelectUser(1)
 		fmt.Printf("user: %v\n", user)
 		t.Assert(user != nil, true)
 	})

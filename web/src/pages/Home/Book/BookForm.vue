@@ -49,7 +49,7 @@
 		</el-form>
 		<template #footer>
 			<div class="dialog-footer">
-				<el-button>取消</el-button>
+				<el-button @click="emits('close')">取消</el-button>
 				<el-button type="primary" @click="submitForm(formRef)">提交</el-button>
 			</div>
 		</template>
@@ -65,13 +65,15 @@ import { fileApi } from "~/apis";
 
 const uploadImageRef = ref<HTMLInputElement>();
 
-function uploadImageRefClick() {
-	uploadImageRef.value?.click();
-}
-
 const props = defineProps<{
 	title?: string;
 	visible: boolean;
+	bookTitle?: string;
+	bookAuthor?: string;
+	bookCover?: string;
+	bookIntroduction?: string;
+	bookPublishTime?: string;
+	bookTotal?: number;
 }>();
 const emits = defineEmits<{
 	(e: "close"): void;
@@ -87,6 +89,10 @@ const emits = defineEmits<{
 		},
 	): void;
 }>();
+// 图片点击
+function uploadImageRefClick() {
+	uploadImageRef.value?.click();
+}
 
 const formRef = ref<FormInstance>();
 
@@ -105,7 +111,7 @@ type Form = {
 };
 // import.meta.env.VITE_IMAGE_BASE_URL + "1712754658244300.png"
 const form = reactive<Form>({
-	title: "活着",
+	title: "",
 	author: "余华",
 	cover: "",
 	introduction: "简介 嘿嘿嘿嘿",
@@ -141,13 +147,16 @@ async function uploadImage(evt: Event) {
 		.then(({ data: result }) => {
 			if (result.code == 10200) {
 				form.cover = import.meta.env.VITE_IMAGE_BASE_URL + result.data.name;
-				ElMessage.error("上传成功");
+				ElMessage.success("上传成功");
 			} else {
 				ElMessage.error(result.msg);
 			}
 		})
 		.catch(() => {
 			ElMessage.error("上传失败");
+		})
+		.finally(() => {
+			(evt.target as HTMLInputElement).value = "";
 		});
 }
 
@@ -156,6 +165,19 @@ watch(
 	(value) => {
 		dialogVisible.value = value;
 	},
+);
+
+watch(
+	props,
+	(value) => {
+		form.title = value.bookTitle ?? form.title;
+		form.author = value.bookAuthor ?? form.author;
+		form.cover = value.bookCover ?? form.cover;
+		form.introduction = value.bookIntroduction ?? form.introduction;
+		form.publish_time = value.bookPublishTime ?? form.publish_time;
+		form.total = value.bookTotal ?? form.total;
+	},
+	{ immediate: true },
 );
 
 const beforeClose = (_done: () => void) => {

@@ -10,8 +10,9 @@ import { userApi } from "~/apis";
 const RouterName = {
 	Login: "Login",
 	Home: "Home",
-	StatisPage: "StatisPage",
 	BookPage: "BookPage",
+	StatisPage: "StatisPage",
+	UserPage: "UserPage",
 	HomeIndex: "HomeIndex",
 };
 
@@ -36,6 +37,11 @@ const routes: RouteRecordRaw[] = [
 				path: "statis",
 				name: RouterName.StatisPage,
 				component: pages.HomeVues.Statis,
+			},
+			{
+				path: "user",
+				name: RouterName.UserPage,
+				component: pages.HomeVues.User,
 			},
 		],
 	},

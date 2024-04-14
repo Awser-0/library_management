@@ -78,6 +78,15 @@ const menuList = reactive<
 			},
 		],
 	},
+	{
+		label: "用户",
+		links: [
+			{
+				label: "用户管理",
+				linkName: RouterName.UserPage,
+			},
+		],
+	},
 ]);
 </script>
 

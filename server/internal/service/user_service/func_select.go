@@ -5,5 +5,5 @@ import (
 )
 
 func (s *UserService) SelectUser(id int64) *entity.User {
-	return s.userDao.SelectUserById(id)
+	return s.userDao.SelectUser(id)
 }

@@ -8,8 +8,10 @@ import (
 )
 
 type IBookService interface {
-	BookQuery(queryString string) []entity.Book
 	BookAdd(title, author, cover, introduction string, publishTime *time.Time, total int) bool
+	BookQuery(queryString string) []entity.Book
+	BookSelect(uuid int64) *entity.Book
+	BookUpdate(book entity.Book) bool
 	BorrowAgree(recordId int64, desc string) (bool, *result.Result)
 	BorrowApply(bookUUID, userID int64, desc string) (bool, *result.Result)
 	BorrowReject(recordId int64, desc string) (bool, *result.Result)

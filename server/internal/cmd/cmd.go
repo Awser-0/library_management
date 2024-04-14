@@ -73,12 +73,14 @@ var (
 					userRouter.POST("/login/token", c.LoginByToken())
 					var adminRouter = v1user.Middleware(middleware.MiddlewareAuth(true))
 					adminRouter.POST("/register", c.Register())
+					adminRouter.POST("/query", c.UserQuery())
 				})
 
 				api.Group("/v1/book", func(v1book *ghttp.RouterGroup) {
 					var c = book.NewV1()
 					{
 						v1book.POST("/query", c.BookQuery())
+						v1book.POST("/select", c.BookSelect())
 					}
 					var userRouter = v1book.Middleware(middleware.MiddlewareAuth(false))
 					{
@@ -87,6 +89,7 @@ var (
 					var adminRouter = v1book.Middleware(middleware.MiddlewareAuth(true))
 					{
 						adminRouter.POST("/add", c.BookAdd())
+						adminRouter.POST("/update", c.BookUpdate())
 						adminRouter.POST("/borrow/agree", c.BorrowAgree())
 						adminRouter.POST("/borrow/reject", c.BorrowReject())
 						adminRouter.POST("/borrow/return", c.BorrowReturn())

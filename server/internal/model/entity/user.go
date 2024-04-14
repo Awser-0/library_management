@@ -11,6 +11,7 @@ type User struct {
 	Id         int64      `orm:"id"`
 	Username   string     `orm:"username"`
 	Password   string     `orm:"password"`
+	Name       string     `orm:"profile_name"`
 	Sex        string     `orm:"profile_sex"`
 	Phone      string     `orm:"profile_phone"`
 	Birth      *time.Time `orm:"profile_birth"`

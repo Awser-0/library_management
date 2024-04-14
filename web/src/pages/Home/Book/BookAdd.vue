@@ -13,6 +13,7 @@ const props = defineProps<{
 
 const emits = defineEmits<{
 	(e: "close"): void;
+	(e: "addAfter"): void;
 }>();
 
 const dialogVisible = ref(props.visible);
@@ -34,13 +35,14 @@ async function submit(form: {
 		.then(({ data: result }) => {
 			if (result.code == 10200) {
 				emits("close");
-				ElMessage.success("请求成功");
+				ElMessage.success("添加成功");
+				emits("addAfter");
 			} else {
-				ElMessage.error("请求失败");
+				ElMessage.error(result.msg);
 			}
 		})
 		.catch(() => {
-			ElMessage.error("请求失败");
+			ElMessage.error("添加失败");
 		})
 		.finally(() => {
 			isLoading.value = false;
