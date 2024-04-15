@@ -13,9 +13,10 @@ func (c *ControllerV1) Register() func(r *ghttp.Request) {
 	type Form struct {
 		Username string     `json:"username" v:"required|length:2,10#请输入username|username长度为2-10"`
 		Password string     `json:"password" v:"required#请输入password"`
+		Name     string     `json:"name" v:"required"`
 		Sex      string     `json:"sex" v:"required"`
-		Phone    string     `json:"phone" v:"required"`
-		Birth    *time.Time `json:"birth" v:"required"`
+		Phone    string     `json:"phone" v:""`
+		Birth    *time.Time `json:"birth" v:""`
 		IsAdmin  bool       `json:"isAdmin" v:"required"`
 	}
 	return func(r *ghttp.Request) {
@@ -25,7 +26,7 @@ func (c *ControllerV1) Register() func(r *ghttp.Request) {
 			return
 		}
 		var form = utils.RequestParseForm[Form](r)
-		var ok, res = c.userService.Register(form.Username, form.Password, form.Sex, form.Phone, form.Birth, form.IsAdmin)
+		var ok, res = c.userService.Register(form.Username, form.Password, form.Name, form.Sex, form.Phone, form.Birth, form.IsAdmin)
 		if res != nil {
 			res.ToWriteJson(r)
 		} else {

@@ -7,6 +7,7 @@ specifiers:
   '@typescript-eslint/parser': ^7.5.0
   '@vitejs/plugin-vue': ^5.0.4
   axios: ^1.6.8
+  dayjs: ^1.11.10
   element-plus: ^2.6.3
   eslint: ^8.57.0
   eslint-config-prettier: ^9.1.0
@@ -25,6 +26,7 @@ specifiers:
 dependencies:
   '@element-plus/icons-vue': 2.3.1_vue@3.4.21
   axios: 1.6.8
+  dayjs: 1.11.10
   element-plus: 2.6.3_vue@3.4.21
   pinia: 2.1.7_4avrvl2q2ps4ohrrbmdqibj6mu
   vue: 3.4.21_typescript@5.4.3

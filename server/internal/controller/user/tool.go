@@ -5,20 +5,6 @@ import (
 	"time"
 )
 
-func userHandle(user entity.User) map[string]any {
-	return map[string]any{
-		"id":          user.Id,
-		"username":    user.Username,
-		"name":        user.Name,
-		"phone":       user.Phone,
-		"sex":         user.Sex,
-		"birth":       user.Birth,
-		"isAdmin":     user.IsAdmin,
-		"update_time": user.UpdateTime,
-		"create_time": user.CreateTime,
-	}
-}
-
 type UserInfo struct {
 	Id         int64      `json:"id"`
 	Username   string     `json:"username"`
@@ -29,6 +15,20 @@ type UserInfo struct {
 	IsAdmin    bool       `json:"isAdmin"`
 	UpdateTime time.Time  `json:"update_time"`
 	CreateTime time.Time  `json:"create_time"`
+}
+
+func userHandle(user entity.User) UserInfo {
+	return UserInfo{
+		Id:         user.Id,
+		Username:   user.Username,
+		Name:       user.Name,
+		Sex:        user.Phone,
+		Phone:      user.Sex,
+		Birth:      user.Birth,
+		IsAdmin:    user.IsAdmin,
+		UpdateTime: user.UpdateTime,
+		CreateTime: user.CreateTime,
+	}
 }
 
 func usersHandle(users []entity.User) []UserInfo {
