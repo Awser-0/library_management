@@ -1,10 +1,10 @@
 export { request };
 export type { Result };
 
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import * as consts from "~/consts";
 
-type Result<Data = unknown> = {
+type Result<Data = never> = {
 	code: number;
 	msg: string;
 	data: Data;
@@ -20,3 +20,23 @@ request.interceptors.request.use((config) => {
 	);
 	return config;
 });
+
+request.interceptors.response.use(
+	(data) => {
+		return data;
+	},
+	(err) => {
+		if (err instanceof AxiosError) {
+			switch (err.response?.status) {
+				case 401: {
+					ElMessage.error("身份信息无效，请重新登录");
+					break;
+				}
+				case 403: {
+					ElMessage.error("无权限操作");
+					break;
+				}
+			}
+		}
+	},
+);

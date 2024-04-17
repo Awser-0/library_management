@@ -12,7 +12,7 @@ func (s *BookService) BorrowReject(recordId int64, desc string) (bool, *result.R
 		return false, &result.BorrowRecordNotFound
 	}
 	if record.State != entity.BorrowRecordStateApply {
-		return false, nil
+		return false, &result.BorrowRecordNotFound
 	}
 	record.State = entity.BorrowRecordStateReject
 	record.ReplyDesc = desc

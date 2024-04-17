@@ -66,12 +66,13 @@ var (
 					})
 				})
 
-				api.Group("/v1/user", func(v1user *ghttp.RouterGroup) {
+				api.Group("/v1/user", func(r *ghttp.RouterGroup) {
 					var c = user.NewV1()
-					var userRouter = v1user.Middleware(middleware.MiddlewareAuth(false))
-					var adminRouter = v1user.Middleware(middleware.MiddlewareAuth(true))
+					var router = r.Clone().Middleware()
+					var userRouter = r.Clone().Middleware(middleware.MiddlewareAuth(false))
+					var adminRouter = r.Clone().Middleware(middleware.MiddlewareAuth(true))
 					{
-						v1user.POST("/login", c.Login())
+						router.POST("/login", c.Login())
 					}
 					{
 						userRouter.POST("/login/token", c.LoginByToken())
@@ -82,19 +83,23 @@ var (
 						adminRouter.POST("/update/other", c.UpdateOther())
 						adminRouter.POST("/query", c.UserQuery())
 						adminRouter.POST("/select", c.UserSelect())
+						adminRouter.POST("/pass/reset", c.PassReset())
 					}
 				})
 
-				api.Group("/v1/book", func(v1book *ghttp.RouterGroup) {
+				api.Group("/v1/book", func(r *ghttp.RouterGroup) {
 					var c = book.NewV1()
-					var userRouter = v1book.Middleware(middleware.MiddlewareAuth(false))
-					var adminRouter = v1book.Middleware(middleware.MiddlewareAuth(true))
+					var router = r.Clone().Middleware()
+					var userRouter = r.Clone().Middleware(middleware.MiddlewareAuth(false))
+					var adminRouter = r.Clone().Middleware(middleware.MiddlewareAuth(true))
 					{
-						v1book.POST("/query", c.BookQuery())
-						v1book.POST("/select", c.BookSelect())
+						router.POST("/query", c.BookQuery())
+						router.POST("/select", c.BookSelect())
 					}
 					{
 						userRouter.POST("/borrow/apply", c.BorrowApply())
+						userRouter.POST("/borrow/cancel", c.BorrowCancel())
+						userRouter.POST("/record/query/self", c.RecordQuerySelf())
 					}
 					{
 						adminRouter.POST("/add", c.BookAdd())
@@ -102,7 +107,7 @@ var (
 						adminRouter.POST("/borrow/agree", c.BorrowAgree())
 						adminRouter.POST("/borrow/reject", c.BorrowReject())
 						adminRouter.POST("/borrow/return", c.BorrowReturn())
-						adminRouter.POST("/record/list", c.RecordList())
+						adminRouter.POST("/record/query", c.RecordQuery())
 					}
 				})
 			})

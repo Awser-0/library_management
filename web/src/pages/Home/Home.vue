@@ -44,7 +44,7 @@ import { userApi } from "~/apis";
 import { router, RouterName } from "~/router";
 import { Delete, Menu } from "@element-plus/icons-vue";
 
-const userStore = stores.userUserStore();
+const userStore = stores.useUserStore();
 
 function signOut() {
 	userStore.signOut();
@@ -66,6 +66,10 @@ const menuList = reactive<
 			{
 				label: "书籍列表",
 				linkName: RouterName.BookPage,
+			},
+			{
+				label: "我的借阅",
+				linkName: RouterName.MyBorrow,
 			},
 		],
 	},
@@ -99,7 +103,7 @@ const menuList = reactive<
 	/* --menu-color--active: #e6e8eb; */
 	--menu-color: #e6e8eb;
 	--menu-color--active: #ffffff;
-	min-width: 1200px;
+	min-width: fit-content;
 	height: 100vh;
 	display: flex;
 	background: var(--home-bg-color);

@@ -28,6 +28,12 @@
 					<div class="author">作者：{{ book.author }}</div>
 					<div class="introduction" :title="book.introduction">简介：{{ book.introduction }}</div>
 				</div>
+				<el-button
+					type="success"
+					:icon="Check"
+					circle
+					@click="showBorrowBookDialogForm(book.uuid)"
+				/>
 			</li>
 			<i></i>
 			<i></i>
@@ -43,6 +49,23 @@
 			@close="bookEditForm.visible = false"
 			@edit-after="queryBooks"
 		/>
+		<el-dialog v-model="borrowBookDialogForm.visible" title="申请理由" width="400">
+			<el-form :model="form">
+				<el-form-item>
+					<el-input
+						v-model="borrowBookDialogForm.desc"
+						autocomplete="off"
+						placeholder="比如：想看"
+					/>
+				</el-form-item>
+			</el-form>
+			<template #footer>
+				<div class="dialog-footer">
+					<el-button @click="borrowBookDialogForm.visible = false">取消</el-button>
+					<el-button type="primary" @click="applyBorrowBook">确定</el-button>
+				</div>
+			</template>
+		</el-dialog>
 	</div>
 </template>
 
@@ -50,8 +73,9 @@
 import BookAddVue from "./BookAdd.vue";
 import BookEditVue from "./BookEdit.vue";
 import { ref, reactive, onMounted } from "vue";
+import { ElMessageBox } from "element-plus";
 import type { FormInstance, FormRules } from "element-plus";
-import { Edit, Search } from "@element-plus/icons-vue";
+import { Edit, Search, Check } from "@element-plus/icons-vue";
 import * as stores from "~/stores";
 import { bookApi } from "~/apis";
 import { router, RouterName } from "~/router";
@@ -100,6 +124,31 @@ async function queryBooks(queryString: string = "") {
 	});
 }
 
+const borrowBookDialogForm = reactive({
+	book_uuid: -1,
+	visible: false,
+	desc: "",
+});
+function showBorrowBookDialogForm(book_uuid: number) {
+	borrowBookDialogForm.book_uuid = book_uuid;
+	borrowBookDialogForm.visible = true;
+}
+
+async function applyBorrowBook() {
+	bookApi
+		.applyBorrowBook(borrowBookDialogForm.book_uuid, borrowBookDialogForm.desc)
+		.then(({ data: result }) => {
+			if (result.code == 10200) {
+				ElMessage.success("请求成功");
+				borrowBookDialogForm.visible = false;
+			} else {
+				ElMessage.error(result.msg);
+			}
+		})
+		.catch(() => {
+			ElMessage.error("请求失败");
+		});
+}
 onMounted(() => {
 	queryBooks();
 });

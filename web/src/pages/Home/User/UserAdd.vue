@@ -31,7 +31,7 @@ async function submit(form: {
 	password: string;
 	name: string;
 	sex: "0" | "1";
-	phone: "";
+	phone: string;
 	birth: Date | null;
 	isAdmin: boolean;
 }) {

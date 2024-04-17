@@ -1,26 +1,43 @@
 <template>
 	<el-dialog
-		width="700"
+		width="636"
 		align-center
 		v-model="dialogVisible"
 		:title="props.title"
 		:before-close="beforeClose"
 	>
 		<el-form class="form" label-width="auto" ref="formRef" :model="form" :rules="rules">
-			<el-form-item label="账号" prop="username">
-				<el-input v-model="form.username" placeholder="请输入账号" />
+			<div class="form_line">
+				<el-form-item label="账号" prop="username">
+					<el-input v-model="form.username" placeholder="请输入账号" />
+				</el-form-item>
+				<el-form-item label="密码" prop="password" v-if="props.shouldPassword">
+					<el-input v-model="form.password" placeholder="请输入密码" />
+				</el-form-item>
+			</div>
+			<div class="form_line">
+				<el-form-item label="姓名" prop="name">
+					<el-input v-model="form.name" placeholder="请输入姓名" />
+				</el-form-item>
+				<el-form-item label="联系电话" prop="phone">
+					<el-input v-model="form.phone" placeholder="请输入联系电话" />
+				</el-form-item>
+			</div>
+			<el-form-item label="出生日期" prop="birth">
+				<el-date-picker v-model="form.birth" type="date" placeholder="请选择出生日期" />
 			</el-form-item>
-			<el-form-item label="密码" prop="password" v-if="props.shouldPassword">
-				<el-input v-model="form.password" placeholder="请输入密码" />
+			<el-form-item label="性别" prop="sex">
+				<el-radio-group v-model="form.sex" class="ml-4">
+					<el-radio value="0">男</el-radio>
+					<el-radio value="1">女</el-radio>
+				</el-radio-group>
 			</el-form-item>
-			<el-form-item label="姓名" prop="name">
-				<el-input v-model="form.name" placeholder="请输入姓名" />
+			<el-form-item label="管理员" prop="name">
+				<el-radio-group v-model="form.isAdmin" class="ml-4">
+					<el-radio :value="true">是</el-radio>
+					<el-radio :value="false">否</el-radio>
+				</el-radio-group>
 			</el-form-item>
-			<el-form-item label="性别" prop="sex"></el-form-item>
-			<el-form-item label="联系电话" prop="phone">
-				<el-input v-model="form.phone" placeholder="请输入联系电话" />
-			</el-form-item>
-			<el-form-item label="管理员" prop="name"></el-form-item>
 		</el-form>
 		<template #footer>
 			<div class="dialog-footer">
@@ -46,7 +63,7 @@ const props = defineProps<{
 	userUsername?: string;
 	userName?: string;
 	userSex?: "0" | "1";
-	userPhone?: "";
+	userPhone?: string;
 	userBirth?: string;
 	userIsAdmin?: boolean;
 }>();
@@ -59,7 +76,7 @@ const emits = defineEmits<{
 			password: string;
 			name: string;
 			sex: "0" | "1";
-			phone: "";
+			phone: string;
 			birth: Date | null;
 			isAdmin: boolean;
 		},
@@ -82,25 +99,26 @@ type Form = {
 	password: string;
 	name: string;
 	sex: "0" | "1";
-	phone: "";
+	phone: string;
 	birth: string;
 	isAdmin: boolean;
 };
 // import.meta.env.VITE_IMAGE_BASE_URL + "1712754658244300.png"
 const form = reactive<Form>({
-	username: "",
-	password: "",
-	name: "",
+	username: "u3",
+	password: "1234",
+	name: "n4",
 	sex: "0",
-	phone: "",
+	phone: "12138",
 	birth: "",
 	isAdmin: false,
 });
 const formRules: FormRules<Form> = {
 	username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+	name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
 };
-if(props.shouldPassword) {
-  formRules['password'] = [{ required: true, message: "请输入密码", trigger: "blur" }],
+if (props.shouldPassword) {
+	formRules["password"] = [{ required: true, message: "请输入密码", trigger: "blur" }];
 }
 const rules = reactive(formRules);
 
@@ -145,4 +163,12 @@ const beforeClose = (_done: () => void) => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.form_line {
+	display: flex;
+}
+.form_line :deep(.el-form-item) {
+	margin-right: 20px;
+	flex: 1;
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
 	<BookFormVue
-		title="添加书籍"
+		title="修改书籍"
 		:visible="props.visible"
 		:book-title="bookInfo.title"
 		:book-author="bookInfo.author"

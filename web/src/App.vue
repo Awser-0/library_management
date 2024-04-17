@@ -11,7 +11,7 @@ import * as stores from "~/stores";
 import { userApi } from "~/apis";
 import { router, RouterName } from "~/router";
 
-const userStore = stores.userUserStore();
+const userStore = stores.useUserStore();
 
 let a: number = 10;
 onBeforeMount(() => {});

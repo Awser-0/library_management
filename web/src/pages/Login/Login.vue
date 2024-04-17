@@ -33,7 +33,7 @@ import * as stores from "~/stores";
 import { userApi } from "~/apis";
 import { router, RouterName } from "~/router";
 
-const userStore = stores.userUserStore();
+const userStore = stores.useUserStore();
 
 const formRef = ref<FormInstance>();
 
@@ -65,7 +65,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 		userApi.login(form.username, form.password).then(({ data: result }) => {
 			if (result.code == 10200) {
 				const { user, token } = result.data;
-				userStore.signIn({ ...user }, token);
+				userStore.signIn({ ...user }, user.isAdmin, token);
 				router.push({ name: RouterName.Home });
 			} else {
 				console.log(result.msg);

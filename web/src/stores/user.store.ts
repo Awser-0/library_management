@@ -1,4 +1,4 @@
-export { userUserStore };
+export { useUserStore };
 
 import { defineStore } from "pinia";
 import { ref, reactive } from "vue";
@@ -14,8 +14,9 @@ type UserInfo = {
 	create_time: string;
 };
 
-const userUserStore = defineStore("user_store", () => {
-	const isLogin = ref(false);
+const useUserStore = defineStore("user_store", () => {
+	const is_login = ref(false);
+	const is_admin = ref(false);
 	const info = ref<UserInfo>(resetInfo());
 	function resetInfo(): UserInfo {
 		return {
@@ -28,20 +29,23 @@ const userUserStore = defineStore("user_store", () => {
 			create_time: "",
 		};
 	}
-	function signIn(userInfo: UserInfo, token?: string) {
+	function signIn(userInfo: UserInfo, isAdmin: boolean, token?: string) {
 		info.value = userInfo;
-		isLogin.value = true;
+		is_login.value = true;
+		is_admin.value = isAdmin;
 		if (token) {
 			window.localStorage.setItem(consts.WINDOW_LOCALSTORAGE_KEY_TOKEN, token);
 		}
 	}
 	function signOut() {
-		isLogin.value = false;
+		is_login.value = false;
+		is_admin.value = false;
 		info.value = resetInfo();
 		window.localStorage.removeItem(consts.WINDOW_LOCALSTORAGE_KEY_TOKEN);
 	}
 	return {
-		isLogin,
+		is_login,
+		is_admin,
 		info,
 		signIn,
 		signOut,

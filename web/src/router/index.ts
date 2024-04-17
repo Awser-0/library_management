@@ -7,14 +7,15 @@ import * as stores from "~/stores";
 import * as consts from "~/consts";
 import { userApi } from "~/apis";
 
-const RouterName = {
-	Login: "Login",
-	Home: "Home",
-	BookPage: "BookPage",
-	StatisPage: "StatisPage",
-	UserPage: "UserPage",
-	HomeIndex: "HomeIndex",
-};
+enum RouterName {
+	Login = "Login",
+	Home = "Home",
+	BookPage = "BookPage",
+	StatisPage = "StatisPage",
+	UserPage = "UserPage",
+	HomeIndex = "HomeIndex",
+	MyBorrow = "MyBorrow",
+}
 
 const routes: RouteRecordRaw[] = [
 	{
@@ -32,6 +33,11 @@ const routes: RouteRecordRaw[] = [
 				path: "book",
 				name: RouterName.BookPage,
 				component: pages.HomeVues.Book,
+			},
+			{
+				path: "my-borrow",
+				name: RouterName.MyBorrow,
+				component: pages.HomeVues.MyBorrow,
 			},
 			{
 				path: "statis",
@@ -58,7 +64,7 @@ const router = createRouter({
 });
 
 async function autoLogin() {
-	const userStore = stores.userUserStore();
+	const userStore = stores.useUserStore();
 	const token = window.localStorage.getItem(consts.WINDOW_LOCALSTORAGE_KEY_TOKEN);
 	if (token) {
 		return await userApi
@@ -66,7 +72,7 @@ async function autoLogin() {
 			.then(({ data: result }) => {
 				if (result.code == 10200) {
 					const { user, token } = result.data;
-					userStore.signIn({ ...user }, token);
+					userStore.signIn({ ...user }, user.isAdmin, token);
 					router.push({ name: RouterName.Home });
 					return true;
 				}
@@ -79,14 +85,14 @@ async function autoLogin() {
 	return false;
 }
 let wantToName: RouteRecordName | null | undefined = "";
-router.beforeEach(async (to, from) => {
-	console.log("to", to);
-	console.log("from", from);
-	console.log(to.name);
-	console.log(to.meta);
+router.beforeEach(async (to, _from) => {
+	// console.log("to", to);
+	// console.log("from", from);
+	// console.log(to.name);
+	// console.log(to.meta);
 
-	const userStore = stores.userUserStore();
-	if (to.meta.isMustLogin && !userStore.isLogin) {
+	const userStore = stores.useUserStore();
+	if (to.meta.isMustLogin && !userStore.is_login) {
 		wantToName = to.name;
 		if (await autoLogin()) return { name: wantToName as string };
 		else return { name: RouterName.Login };

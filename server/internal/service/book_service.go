@@ -12,13 +12,15 @@ type IBookService interface {
 	BookQuery(queryString string) []entity.Book
 	BookSelect(uuid int64) *entity.Book
 	BookUpdate(book entity.Book) bool
-	BorrowAgree(recordId int64, desc string) (bool, *result.Result)
 	BorrowApply(bookUUID, userID int64, desc string) (bool, *result.Result)
+	BorrowCancel(recordId int64, userId int64) (bool, *result.Result)
+	BorrowAgree(recordId int64, desc string) (bool, *result.Result)
 	BorrowReject(recordId int64, desc string) (bool, *result.Result)
 	BorrowReturn(recordId int64) (bool, *result.Result)
 	RecordQuery() []entity.BorrowRecord
 	RecordQueryByBookUUID(bookUUID int64) []entity.BorrowRecord
 	RecordQueryByUserID(userID int64) []entity.BorrowRecord
+	RecordQuerySelfByBookUUID(userID int64, bookUUID *int64) []entity.BorrowRecord
 }
 
 func NewBookService() IBookService {

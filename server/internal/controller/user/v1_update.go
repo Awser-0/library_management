@@ -25,10 +25,6 @@ func (c *ControllerV1) Update() func(r *ghttp.Request) {
 			result.UserNotFound.ToWriteJson(r)
 			return
 		}
-		if c.userService.SelectUserByUsername(form.Username) != nil {
-			result.UserExists.ToWriteJson(r)
-			return
-		}
 		user.Username = form.Username
 		user.Name = form.Name
 		user.Sex = form.Sex

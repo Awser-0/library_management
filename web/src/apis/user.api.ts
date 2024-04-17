@@ -1,4 +1,13 @@
-export { register, updateUser, updateOhterUser, queryUser, login, loginByToken };
+export {
+	register,
+	updateUser,
+	updateOhterUser,
+	selectUser,
+	queryUser,
+	login,
+	loginByToken,
+	resetPassword,
+};
 export type { UserInfo };
 
 import { request } from "./request";
@@ -60,9 +69,18 @@ async function updateUser(form: UserUpdateForm) {
 // 更新其他用户
 async function updateOhterUser(id: number, form: UserUpdateForm) {
 	return request<Result<boolean>>({
-		url: "/v1/user/update",
+		url: "/v1/user/update/other",
 		method: "POST",
 		data: { id, ...form },
+	});
+}
+
+// 选择用户
+async function selectUser(id: number) {
+	return request<Result<{ user: UserInfo }>>({
+		url: "/v1/user/select",
+		method: "POST",
+		data: { id },
 	});
 }
 
@@ -91,6 +109,17 @@ async function loginByToken(token: string) {
 		method: "POST",
 		headers: {
 			[consts.REQUEST_HEADER_KEY_TOKEN]: token,
+		},
+	});
+}
+
+async function resetPassword(user_id: number, password: string) {
+	return request<Result<LoginResult>>({
+		url: "/v1/user/pass/reset",
+		method: "POST",
+		data: {
+			user_id,
+			password,
 		},
 	});
 }
