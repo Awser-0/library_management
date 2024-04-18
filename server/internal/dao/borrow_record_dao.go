@@ -2,12 +2,14 @@ package dao
 
 import (
 	borrowrecorddaoimpl "library/internal/dao/borrow_record_dao_impl"
+	"library/internal/model/do"
 	"library/internal/model/entity"
 )
 
 type IBorrowRecordDao interface {
 	SelectRecord(id int64) *entity.BorrowRecord
 	SelectRecordsRestricted(record entity.BorrowRecord) []entity.BorrowRecord
+	SelectRecordsInDetail() []do.BorrowRecordDetail
 	InsertRecord(borrowRecord entity.BorrowRecord) bool
 	UpdateRecord(id int64, record entity.BorrowRecord) bool
 	DeleteRecord(id int64) bool

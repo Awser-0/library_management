@@ -54,42 +54,24 @@ function signOut() {
 const menuList = reactive<
 	{
 		label: string;
-		links: {
-			label: string;
-			linkName: string;
-		}[];
+		links: { label: string; linkName: string }[];
 	}[]
 >([
 	{
 		label: "书籍",
 		links: [
-			{
-				label: "书籍列表",
-				linkName: RouterName.BookPage,
-			},
-			{
-				label: "我的借阅",
-				linkName: RouterName.MyBorrow,
-			},
+			{ label: "书籍列表", linkName: RouterName.BookPage },
+			{ label: "我的借阅", linkName: RouterName.MyBorrow },
+			{ label: "借阅管理", linkName: RouterName.BorrowManage },
 		],
 	},
 	{
 		label: "统计",
-		links: [
-			{
-				label: "借阅统计",
-				linkName: RouterName.StatisPage,
-			},
-		],
+		links: [{ label: "借阅统计", linkName: RouterName.StatisPage }],
 	},
 	{
 		label: "用户",
-		links: [
-			{
-				label: "用户管理",
-				linkName: RouterName.UserPage,
-			},
-		],
+		links: [{ label: "用户管理", linkName: RouterName.UserPage }],
 	},
 ]);
 </script>

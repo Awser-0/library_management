@@ -15,6 +15,7 @@ enum RouterName {
 	UserPage = "UserPage",
 	HomeIndex = "HomeIndex",
 	MyBorrow = "MyBorrow",
+	BorrowManage = "BorrowManage",
 }
 
 const routes: RouteRecordRaw[] = [
@@ -35,9 +36,14 @@ const routes: RouteRecordRaw[] = [
 				component: pages.HomeVues.Book,
 			},
 			{
-				path: "my-borrow",
+				path: "borrow-self",
 				name: RouterName.MyBorrow,
 				component: pages.HomeVues.MyBorrow,
+			},
+			{
+				path: "borrow-manage",
+				name: RouterName.BorrowManage,
+				component: pages.HomeVues.BorrowManage,
 			},
 			{
 				path: "statis",

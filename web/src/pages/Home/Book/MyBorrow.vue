@@ -1,6 +1,6 @@
 <template>
 	<div class="my-borrow">
-		<BorrowRecordTable audiences="user" :data="records" />
+		<BorrowRecordTable audiences="user" :data="records" @update="querySelfRecords" />
 	</div>
 </template>
 
@@ -11,8 +11,8 @@ import { bookApi } from "~/apis";
 
 const records = ref<bookApi.BorrowRecord[]>([]);
 
-onMounted(() => {
-	bookApi
+async function querySelfRecords() {
+	await bookApi
 		.querySelfRecords()
 		.then(({ data: result }) => {
 			if (result.code == 10200) {
@@ -25,6 +25,10 @@ onMounted(() => {
 		.catch(() => {
 			ElMessage.error("请求失败");
 		});
+}
+
+onMounted(() => {
+	querySelfRecords();
 });
 </script>
 

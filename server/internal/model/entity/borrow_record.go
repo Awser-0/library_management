@@ -2,6 +2,8 @@ package entity
 
 import (
 	"time"
+
+	"github.com/gogf/gf/v2/util/gmeta"
 )
 
 // state: 申请借阅状态[ apply | cancel | reject | borrow | return ]
@@ -14,6 +16,7 @@ const (
 )
 
 type BorrowRecord struct {
+	gmeta.Meta `orm:"table:borrow_record"`
 	Id         int64      `orm:"id" json:"id"`
 	UserId     int64      `orm:"user_id" json:"user_id"`
 	BookUUID   int64      `orm:"book_uuid" json:"book_uuid"`

@@ -1,12 +1,17 @@
 package entity
 
-import "time"
+import (
+	"time"
+
+	"github.com/gogf/gf/v2/util/gmeta"
+)
 
 const (
 	Book_TableNA = 1
 )
 
 type Book struct {
+	gmeta.Meta   `orm:"table:book"`
 	UUID         int64      `orm:"uuid" json:"uuid"`
 	Title        string     `orm:"title" json:"title"`
 	Author       string     `orm:"author" json:"author"`

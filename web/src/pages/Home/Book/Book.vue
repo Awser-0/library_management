@@ -49,7 +49,7 @@
 			@close="bookEditForm.visible = false"
 			@edit-after="queryBooks"
 		/>
-		<el-dialog v-model="borrowBookDialogForm.visible" title="申请理由" width="400">
+		<!-- <el-dialog v-model="borrowBookDialogForm.visible" title="申请理由" width="400">
 			<el-form :model="form">
 				<el-form-item>
 					<el-input
@@ -65,15 +65,22 @@
 					<el-button type="primary" @click="applyBorrowBook">确定</el-button>
 				</div>
 			</template>
-		</el-dialog>
+		</el-dialog> -->
+		<DescDialog
+			:visible="borrowBookDialogForm.visible"
+			title="申请理由"
+			placeholder="比如：想看"
+			@close="borrowBookDialogForm.visible = false"
+			@confirm="applyBorrowBook"
+		/>
 	</div>
 </template>
 
 <script setup lang="ts">
 import BookAddVue from "./BookAdd.vue";
 import BookEditVue from "./BookEdit.vue";
+import { DescDialog } from "~/components";
 import { ref, reactive, onMounted } from "vue";
-import { ElMessageBox } from "element-plus";
 import type { FormInstance, FormRules } from "element-plus";
 import { Edit, Search, Check } from "@element-plus/icons-vue";
 import * as stores from "~/stores";
@@ -127,16 +134,15 @@ async function queryBooks(queryString: string = "") {
 const borrowBookDialogForm = reactive({
 	book_uuid: -1,
 	visible: false,
-	desc: "",
 });
 function showBorrowBookDialogForm(book_uuid: number) {
 	borrowBookDialogForm.book_uuid = book_uuid;
 	borrowBookDialogForm.visible = true;
 }
 
-async function applyBorrowBook() {
+async function applyBorrowBook(desc: string) {
 	bookApi
-		.applyBorrowBook(borrowBookDialogForm.book_uuid, borrowBookDialogForm.desc)
+		.applyBorrowBook(borrowBookDialogForm.book_uuid, desc)
 		.then(({ data: result }) => {
 			if (result.code == 10200) {
 				ElMessage.success("请求成功");

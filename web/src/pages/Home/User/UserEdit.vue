@@ -17,8 +17,8 @@
 <script setup lang="ts">
 import UserFormVue from "./UserForm.vue";
 import { ref, reactive, watch } from "vue";
-import dayjs from "dayjs";
 import { userApi } from "~/apis";
+import * as utils from "~/utils";
 
 const props = defineProps<{
 	visible: boolean;
@@ -55,7 +55,7 @@ async function selectUser() {
 				userInfo.name = user.name;
 				userInfo.sex = user.sex;
 				userInfo.phone = user.phone;
-				userInfo.birth = user.birth ? dayjs(user.birth).format("YYYY-MM-DD") : "";
+				userInfo.birth = utils.dayjsFormatDate(user.birth);
 				userInfo.isAdmin = user.isAdmin;
 				return true;
 			} else {

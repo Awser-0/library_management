@@ -6,6 +6,7 @@ export {
 	queryRecords,
 	querySelfRecords,
 	applyBorrowBook,
+	cancelBorrowBook,
 	agreeBorrowBook,
 	rejectBorrowBook,
 	returnBorrowBook,
@@ -111,6 +112,15 @@ async function applyBorrowBook(book_uuid: number, desc: string) {
 		url: "/v1/book/borrow/apply",
 		method: "POST",
 		data: { book_uuid, desc },
+	});
+}
+
+// 取消借阅书籍
+async function cancelBorrowBook(record_id: number) {
+	return request<Result<{ records: BorrowRecord[] }>>({
+		url: "/v1/book/borrow/cancel",
+		method: "POST",
+		data: { record_id },
 	});
 }
 

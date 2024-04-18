@@ -50,8 +50,8 @@ import UserAddVue from "./UserAdd.vue";
 import UserEditVue from "./UserEdit.vue";
 import PassResetVue from "./PassReset.vue";
 import { ref, reactive, onMounted } from "vue";
-import dayjs from "dayjs";
 import { userApi } from "~/apis";
+import * as utils from "~/utils";
 
 const users = ref<userApi.UserInfo[]>([]);
 const userAddForm = reactive({
@@ -82,7 +82,7 @@ async function queryUser(query_string: string = "") {
 				users.value = result.data.users.map((item) => {
 					return {
 						...item,
-						create_time: dayjs(item.create_time).format("YYYY-MM-DD"),
+						create_time: utils.dayjsFormatDate(item.create_time),
 					};
 				});
 			} else {

@@ -1,6 +1,8 @@
 package borrowrecorddaoimpl
 
 import (
+	"fmt"
+	"library/internal/model/do"
 	"library/internal/model/entity"
 
 	"github.com/gogf/gf/v2/frame/g"
@@ -28,6 +30,15 @@ func (*BorrowRecordDaoImpl) SelectRecordsRestricted(record entity.BorrowRecord) 
 		if err := result.Structs(&records); err != nil {
 			panic(err)
 		}
+	}
+	return records
+}
+
+func (*BorrowRecordDaoImpl) SelectRecordsInDetail() []do.BorrowRecordDetail {
+	var records []do.BorrowRecordDetail
+	fmt.Printf("records: %v\n", records)
+	if err := g.Model(records).WithAll().Scan(&records); err != nil {
+		panic(err)
 	}
 	return records
 }
