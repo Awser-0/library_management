@@ -19,7 +19,7 @@ func (c *ControllerV1) UserSelect() func(r *ghttp.Request) {
 			result.UserNotFound.ToWriteJson(r)
 			return
 		} else {
-			result.OK.SetData(g.Map{"user": userHandle(*user)}).ToWriteJson(r)
+			result.OK.SetData(g.Map{"user": user}).ToWriteJson(r)
 			return
 		}
 	}

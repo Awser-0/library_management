@@ -4,7 +4,7 @@
 		:shouldPassword="false"
 		:visible="props.visible"
 		:user-username="userInfo.username"
-		:user-name="userInfo.name"
+		:user-nickname="userInfo.nickname"
 		:user-sex="userInfo.sex"
 		:user-phone="userInfo.phone"
 		:user-birth="userInfo.birth"
@@ -36,7 +36,7 @@ let isLoading = ref(false);
 
 const userInfo = reactive({
 	username: "",
-	name: "",
+	nickname: "",
 	sex: "0" as "0" | "1",
 	phone: "",
 	birth: "",
@@ -52,7 +52,7 @@ async function selectUser() {
 			if (result.code == 10200) {
 				const user = result.data.user;
 				userInfo.username = user.username;
-				userInfo.name = user.name;
+				userInfo.nickname = user.nickname;
 				userInfo.sex = user.sex;
 				userInfo.phone = user.phone;
 				userInfo.birth = utils.dayjsFormatDate(user.birth);
@@ -75,7 +75,7 @@ async function selectUser() {
 async function submit(form: {
 	username: string;
 	password: string;
-	name: string;
+	nickname: string;
 	sex: "0" | "1";
 	phone: string;
 	birth: Date | null;

@@ -1,7 +1,6 @@
 package borrowrecorddaoimpl
 
 import (
-	"fmt"
 	"library/internal/model/do"
 	"library/internal/model/entity"
 
@@ -24,7 +23,7 @@ func (*BorrowRecordDaoImpl) SelectRecordsRestricted(record entity.BorrowRecord) 
 		"user_id":   record.UserId,
 		"book_uuid": record.BookUUID,
 		"state":     record.State,
-	}).Where("").All(); err != nil {
+	}).All(); err != nil {
 		panic(err)
 	} else {
 		if err := result.Structs(&records); err != nil {
@@ -34,11 +33,24 @@ func (*BorrowRecordDaoImpl) SelectRecordsRestricted(record entity.BorrowRecord) 
 	return records
 }
 
-func (*BorrowRecordDaoImpl) SelectRecordsInDetail() []do.BorrowRecordDetail {
-	var records []do.BorrowRecordDetail
-	fmt.Printf("records: %v\n", records)
-	if err := g.Model(records).WithAll().Scan(&records); err != nil {
+func (*BorrowRecordDaoImpl) SelectRecordsInDetail(record entity.BorrowRecord, page do.QueryPage) do.PageData[do.BorrowRecordDetail] {
+	var records = make([]do.BorrowRecordDetail, 0)
+	var total int
+	var err = g.Model(records, "user").OmitEmpty().Where(map[string]any{
+		"user_id":   record.UserId,
+		"book_uuid": record.BookUUID,
+		"state":     record.State,
+	}).Order("id desc").Limit((page.PageNum-1)*(page.PageSize), page.PageSize).WithAll().ScanAndCount(&records, &total, false)
+	if err != nil {
 		panic(err)
 	}
-	return records
+	for _, v := range records {
+		g.Dump(v.User)
+	}
+	return do.PageData[do.BorrowRecordDetail]{
+		List:     records,
+		PageNum:  page.PageNum,
+		PageSize: page.PageSize,
+		Total:    total,
+	}
 }

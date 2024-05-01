@@ -1,11 +1,35 @@
 <template>
-	<el-table :data="props.data" style="width: 100%">
+	<el-table :data="props.data" style="width: fit-content">
 		<el-table-column prop="book_uuid" label="书籍ID" width="180" />
-		<el-table-column prop="user_id" label="Name" width="180" />
-		<el-table-column prop="apply_description" label="申请理由" width="180" />
-		<el-table-column prop="reply_description" label="回复理由" width="180" />
+		<el-table-column label="书名" width="180">
+			<template #default="scope">
+				{{ scope.row["book"]["title"] }}
+				<span class="column-empty" v-if="!scope.row['book']['title']">空</span>
+			</template>
+		</el-table-column>
+		<el-table-column prop="user.nickname" label="申请人" width="180">
+			<template #default="scope">
+				{{ scope.row["user"]["nickname"] }}
+				<span class="column-empty" v-if="!scope.row['user']['nickname']">空</span>
+			</template>
+		</el-table-column>
+		<el-table-column label="申请理由" width="180">
+			<template #default="scope">
+				{{ scope.row["apply_description"] }}
+				<span class="column-empty" v-if="!scope.row['apply_description']">空</span>
+			</template>
+		</el-table-column>
+		<el-table-column label="回复理由" width="180">
+			<template #default="scope">
+				{{ scope.row["reply_description"] }}
+				<span class="column-empty" v-if="!scope.row['reply_description']">空</span>
+			</template>
+		</el-table-column>
 		<el-table-column label="归还时间" width="180">
-			<template #default="scope">{{ utils.dayjsFormatDate(scope.row["return_time"]) }}</template>
+			<template #default="scope">
+				{{ utils.dayjsFormatDate(scope.row["return_time"]) }}
+				<span class="column-empty" v-if="!utils.dayjsFormatDate(scope.row['return_time'])">空</span>
+			</template>
 		</el-table-column>
 		<el-table-column label="操作" width="200">
 			<template #default="scope">
@@ -33,6 +57,9 @@
 				<div v-if="scope.row['state'] == BorrowRecordState.Return">已归还</div>
 			</template>
 		</el-table-column>
+		<template #empty>
+			<el-empty description="暂无记录" />
+		</template>
 	</el-table>
 	<DescDialog
 		:visible="dialogVisible"
@@ -60,7 +87,7 @@ const props = defineProps<{
 const emits = defineEmits<{
 	(e: "update"): void;
 }>();
-
+console.log("props.data", props.data);
 const operateForm = reactive({
 	record_id: -1,
 	purpose: "" as "agree" | "reject",
@@ -146,4 +173,8 @@ async function confirm(desc: string) {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.column-empty {
+	color: #999;
+}
+</style>

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"library/internal/model/do"
 	"library/internal/model/entity"
 	"library/internal/service/user_service"
 	"library/internal/utils/result"
@@ -8,7 +9,7 @@ import (
 )
 
 type IUserService interface {
-	UserQuery(query string) []entity.User
+	UserQuery(query string, page do.QueryPage) do.PageData[entity.User]
 	SelectUser(id int64) *entity.User
 	SelectUserByUsername(username string) *entity.User
 	Login(username, password string) (*entity.User, *result.Result)

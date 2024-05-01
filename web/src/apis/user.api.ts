@@ -12,7 +12,7 @@ export type { UserInfo };
 
 import { request } from "./request";
 import * as consts from "~/consts";
-import type { Result } from "./request";
+import type { Result, PageReq, PageRes } from "./request";
 
 type LoginResult = {
 	token?: string;
@@ -22,18 +22,18 @@ type LoginResult = {
 type UserInfo = {
 	id: number;
 	username: string;
-	name: string;
+	nickname: string;
 	sex: "0" | "1";
 	phone: string;
 	birth: string;
-	isAdmin: boolean;
+	is_admin: boolean;
 	update_time: string;
 	create_time: string;
 };
 
 type UserUpdateForm = {
 	username: string;
-	name: string;
+	nickname: string;
 	sex: "0" | "1";
 	phone: string;
 	birth: Date | null;
@@ -44,7 +44,7 @@ type UserUpdateForm = {
 async function register(form: {
 	username: string;
 	password: string;
-	name: string;
+	nickname: string;
 	sex: "0" | "1";
 	phone: string;
 	birth: Date | null;
@@ -85,11 +85,11 @@ async function selectUser(id: number) {
 }
 
 // 查询用户，查询限制 用户名和姓名
-async function queryUser(query_string: string) {
-	return request<Result<{ users: UserInfo[] }>>({
+async function queryUser(query_string: string, page: PageReq = {}) {
+	return request<Result<PageRes<UserInfo>>>({
 		url: "/v1/user/query",
 		method: "POST",
-		data: { query_string },
+		data: { query_string, ...page },
 	});
 }
 

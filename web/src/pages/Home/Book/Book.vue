@@ -49,23 +49,6 @@
 			@close="bookEditForm.visible = false"
 			@edit-after="queryBooks"
 		/>
-		<!-- <el-dialog v-model="borrowBookDialogForm.visible" title="申请理由" width="400">
-			<el-form :model="form">
-				<el-form-item>
-					<el-input
-						v-model="borrowBookDialogForm.desc"
-						autocomplete="off"
-						placeholder="比如：想看"
-					/>
-				</el-form-item>
-			</el-form>
-			<template #footer>
-				<div class="dialog-footer">
-					<el-button @click="borrowBookDialogForm.visible = false">取消</el-button>
-					<el-button type="primary" @click="applyBorrowBook">确定</el-button>
-				</div>
-			</template>
-		</el-dialog> -->
 		<DescDialog
 			:visible="borrowBookDialogForm.visible"
 			title="申请理由"

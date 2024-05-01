@@ -12,7 +12,7 @@ func (c *ControllerV1) UpdateOther() func(r *ghttp.Request) {
 	type Form struct {
 		Id       int64      `json:"id" v:"required"`
 		Username string     `json:"username" v:"required|length:2,10#请输入username|username长度为2-10"`
-		Name     string     `json:"name" v:"required"`
+		Nickname string     `json:"nickname" v:"required"`
 		Sex      string     `json:"sex" v:"required"`
 		Phone    string     `json:"phone" v:""`
 		Birth    *time.Time `json:"birth" v:""`
@@ -26,7 +26,7 @@ func (c *ControllerV1) UpdateOther() func(r *ghttp.Request) {
 			return
 		}
 		user.Username = form.Username
-		user.Name = form.Name
+		user.Nickname = form.Nickname
 		user.Sex = form.Sex
 		user.Phone = form.Phone
 		user.Birth = form.Birth

@@ -12,11 +12,12 @@ export {
 	returnBorrowBook,
 };
 
-export type { BorrowRecord };
+export type { BorrowRecord, BorrowRecordDetail };
 
 import { request } from "./request";
 import * as consts from "~/consts";
-import type { Result } from "./request";
+import type { Result, PageReq, PageRes } from "./request";
+import { UserInfo } from "./user.api";
 
 type Book = {
 	uuid: number;
@@ -50,6 +51,11 @@ type BorrowRecord = {
 	reply_description: string;
 	update_time: string;
 	create_time: string;
+};
+
+type BorrowRecordDetail = BorrowRecord & {
+	user: UserInfo;
+	book: Book;
 };
 
 // 查看书籍
@@ -89,8 +95,8 @@ async function addBook(info: BookInfo) {
 }
 
 // 查询借阅记录
-async function queryRecords(query: { book_uuid?: string; user_id?: string } = {}) {
-	return request<Result<{ records: BorrowRecord[] }>>({
+async function queryRecords(query: { book_uuid?: string; user_id?: string } & PageReq = {}) {
+	return request<Result<PageRes<BorrowRecordDetail>>>({
 		url: "/v1/book/record/query",
 		method: "POST",
 		data: { ...query },
@@ -98,8 +104,8 @@ async function queryRecords(query: { book_uuid?: string; user_id?: string } = {}
 }
 
 // 查询自己借阅记录
-async function querySelfRecords(query: { book_uuid?: string } = {}) {
-	return request<Result<{ records: BorrowRecord[] }>>({
+async function querySelfRecords(query: { book_uuid?: string } & PageReq = {}) {
+	return request<Result<PageRes<BorrowRecordDetail>>>({
 		url: "/v1/book/record/query/self",
 		method: "POST",
 		data: { ...query },

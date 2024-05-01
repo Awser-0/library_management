@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func (s *UserService) Register(username, password, name, sex, phone string, birth *time.Time, isAdmin bool) (bool, *result.Result) {
+func (s *UserService) Register(username, password, nickname, sex, phone string, birth *time.Time, isAdmin bool) (bool, *result.Result) {
 	if s.userDao.SelectUserByUsername(username) != nil {
 		return false, &result.UserExists
 	}
@@ -16,7 +16,7 @@ func (s *UserService) Register(username, password, name, sex, phone string, birt
 	var ok = s.userDao.InsertUser(entity.User{
 		Username: username,
 		Password: password,
-		Name:     name,
+		Nickname: nickname,
 		Sex:      sex,
 		Phone:    phone,
 		Birth:    birth,

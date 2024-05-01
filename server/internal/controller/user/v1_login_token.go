@@ -18,7 +18,7 @@ func (c *ControllerV1) LoginByToken() func(r *ghttp.Request) {
 			return
 		}
 		result.OK.SetMsg("登录成功").SetData(g.Map{
-			"user": userHandle(*user),
+			"user": user,
 		}).ToWriteJson(r)
 	}
 }

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"library/internal/model/do"
 	"library/internal/model/entity"
 	"library/internal/service/book_service"
 	"library/internal/utils/result"
@@ -17,10 +18,10 @@ type IBookService interface {
 	BorrowAgree(recordId int64, desc string) (bool, *result.Result)
 	BorrowReject(recordId int64, desc string) (bool, *result.Result)
 	BorrowReturn(recordId int64) (bool, *result.Result)
-	RecordQuery() []entity.BorrowRecord
-	RecordQueryByBookUUID(bookUUID int64) []entity.BorrowRecord
-	RecordQueryByUserID(userID int64) []entity.BorrowRecord
-	RecordQuerySelfByBookUUID(userID int64, bookUUID *int64) []entity.BorrowRecord
+	RecordQuery(page do.QueryPage) do.PageData[do.BorrowRecordDetail]
+	RecordQueryByBookUUID(bookUUID int64, page do.QueryPage) do.PageData[do.BorrowRecordDetail]
+	RecordQueryByUserID(userID int64, page do.QueryPage) do.PageData[do.BorrowRecordDetail]
+	RecordQuerySelfByBookUUID(userID int64, bookUUID *int64, page do.QueryPage) do.PageData[do.BorrowRecordDetail]
 }
 
 func NewBookService() IBookService {

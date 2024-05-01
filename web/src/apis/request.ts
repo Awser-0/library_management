@@ -1,13 +1,26 @@
 export { request };
-export type { Result };
+export type { Result, PageReq, PageRes };
 
 import axios, { AxiosError } from "axios";
 import * as consts from "~/consts";
 
+// 响应结果格式
 type Result<Data = never> = {
 	code: number;
 	msg: string;
 	data: Data;
+};
+// 分页请求格式
+type PageReq = {
+	page_num?: number;
+	page_size?: number;
+};
+// 分页响应格式
+type PageRes<T = any> = {
+	list: T[];
+	page_num: number;
+	page_size: number;
+	total: number;
 };
 
 const request = axios.create({

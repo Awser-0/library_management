@@ -8,6 +8,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     A: typeof import('./src/components/a.vue')['default']
+    AdminComponent: typeof import('./src/components/AdminComponent.vue')['default']
+    Aside: typeof import('./src/components/Aside.vue')['default']
     BorrowRecordTable: typeof import('./src/components/BorrowRecordTable.vue')['default']
     DescDialog: typeof import('./src/components/DescDialog.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
@@ -16,6 +18,7 @@ declare module 'vue' {
     ElCol: typeof import('element-plus/es')['ElCol']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
     ElDialog: typeof import('element-plus/es')['ElDialog']
+    ElEmpty: typeof import('element-plus/es')['ElEmpty']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElIcon: typeof import('element-plus/es')['ElIcon']
@@ -23,6 +26,7 @@ declare module 'vue' {
     ElInput: typeof import('element-plus/es')['ElInput']
     ElInputNumber: typeof import('element-plus/es')['ElInputNumber']
     ElOption: typeof import('element-plus/es')['ElOption']
+    ElPagination: typeof import('element-plus/es')['ElPagination']
     ElRadio: typeof import('element-plus/es')['ElRadio']
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     ElSelect: typeof import('element-plus/es')['ElSelect']

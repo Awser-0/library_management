@@ -45,35 +45,39 @@ import { router, RouterName } from "~/router";
 import { Delete, Menu } from "@element-plus/icons-vue";
 
 const userStore = stores.useUserStore();
-
+console.log("userStore", userStore);
 function signOut() {
 	userStore.signOut();
 	router.push({ name: RouterName.Login });
 }
 
-const menuList = reactive<
-	{
-		label: string;
-		links: { label: string; linkName: string }[];
-	}[]
->([
+const menuList: {
+	label: string;
+	links: { label: string; linkName: string; needAdminAuth?: true }[];
+}[] = [
 	{
 		label: "书籍",
 		links: [
 			{ label: "书籍列表", linkName: RouterName.BookPage },
 			{ label: "我的借阅", linkName: RouterName.MyBorrow },
-			{ label: "借阅管理", linkName: RouterName.BorrowManage },
+			{ label: "借阅管理", linkName: RouterName.BorrowManage, needAdminAuth: true },
 		],
 	},
 	{
 		label: "统计",
-		links: [{ label: "借阅统计", linkName: RouterName.StatisPage }],
+		links: [{ label: "借阅统计", linkName: RouterName.StatisPage, needAdminAuth: true }],
 	},
 	{
 		label: "用户",
-		links: [{ label: "用户管理", linkName: RouterName.UserPage }],
+		links: [{ label: "用户管理", linkName: RouterName.UserPage, needAdminAuth: true }],
 	},
-]);
+].filter((menu) => {
+	menu.links = menu.links.filter((item) => {
+		if (item.needAdminAuth && !userStore.is_admin) return false;
+		else return true;
+	});
+	return menu.links.length > 0;
+});
 </script>
 
 <style>

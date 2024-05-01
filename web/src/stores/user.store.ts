@@ -7,6 +7,7 @@ import * as consts from "~/consts";
 type UserInfo = {
 	id: number;
 	username: string;
+	nickname: string;
 	sex: "0" | "1";
 	phone: string;
 	birth?: string;
@@ -22,6 +23,7 @@ const useUserStore = defineStore("user_store", () => {
 		return {
 			id: 0,
 			username: "",
+			nickname: "",
 			sex: "0",
 			phone: "",
 			birth: "",

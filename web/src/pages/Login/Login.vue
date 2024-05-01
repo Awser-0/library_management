@@ -65,8 +65,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 		userApi.login(form.username, form.password).then(({ data: result }) => {
 			if (result.code == 10200) {
 				const { user, token } = result.data;
-				userStore.signIn({ ...user }, user.isAdmin, token);
-				router.push({ name: RouterName.Home });
+				userStore.signIn({ ...user }, user.is_admin, token);
+				router.push({ name: RouterName.BookPage });
 			} else {
 				console.log(result.msg);
 			}

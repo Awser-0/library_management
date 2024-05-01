@@ -78,7 +78,7 @@ async function autoLogin() {
 			.then(({ data: result }) => {
 				if (result.code == 10200) {
 					const { user, token } = result.data;
-					userStore.signIn({ ...user }, user.isAdmin, token);
+					userStore.signIn({ ...user }, user.is_admin, token);
 					router.push({ name: RouterName.Home });
 					return true;
 				}

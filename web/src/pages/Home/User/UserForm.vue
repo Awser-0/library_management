@@ -17,7 +17,7 @@
 			</div>
 			<div class="form_line">
 				<el-form-item label="姓名" prop="name">
-					<el-input v-model="form.name" placeholder="请输入姓名" />
+					<el-input v-model="form.nickname" placeholder="请输入姓名" />
 				</el-form-item>
 				<el-form-item label="联系电话" prop="phone">
 					<el-input v-model="form.phone" placeholder="请输入联系电话" />
@@ -61,7 +61,7 @@ const props = defineProps<{
 	visible: boolean;
 	shouldPassword: boolean;
 	userUsername?: string;
-	userName?: string;
+	userNickname?: string;
 	userSex?: "0" | "1";
 	userPhone?: string;
 	userBirth?: string;
@@ -74,7 +74,7 @@ const emits = defineEmits<{
 		form: {
 			username: string;
 			password: string;
-			name: string;
+			nickname: string;
 			sex: "0" | "1";
 			phone: string;
 			birth: Date | null;
@@ -97,7 +97,7 @@ const dialogVisible = ref(props.visible);
 type Form = {
 	username: string;
 	password: string;
-	name: string;
+	nickname: string;
 	sex: "0" | "1";
 	phone: string;
 	birth: string;
@@ -107,7 +107,7 @@ type Form = {
 const form = reactive<Form>({
 	username: "u3",
 	password: "1234",
-	name: "n4",
+	nickname: "n4",
 	sex: "0",
 	phone: "12138",
 	birth: "",
@@ -115,7 +115,7 @@ const form = reactive<Form>({
 });
 const formRules: FormRules<Form> = {
 	username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-	name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
+	nickname: [{ required: true, message: "请输入姓名", trigger: "blur" }],
 };
 if (props.shouldPassword) {
 	formRules["password"] = [{ required: true, message: "请输入密码", trigger: "blur" }];
@@ -129,7 +129,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 		emits("submit", {
 			username: form.username,
 			password: form.password,
-			name: form.name,
+			nickname: form.nickname,
 			sex: form.sex,
 			phone: form.phone,
 			birth: form.birth != "" ? new Date(form.birth + "UTC") : null,
@@ -149,7 +149,7 @@ watch(
 	props,
 	(value) => {
 		form.username = value.userUsername ?? form.username;
-		form.name = value.userName ?? form.name;
+		form.nickname = value.userNickname ?? form.nickname;
 		form.sex = value.userSex ?? form.sex;
 		form.phone = value.userPhone ?? form.phone;
 		form.birth = value.userBirth ?? form.birth;

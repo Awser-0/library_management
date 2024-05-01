@@ -29,7 +29,7 @@ let isLoading = ref(false);
 async function submit(form: {
 	username: string;
 	password: string;
-	name: string;
+	nickname: string;
 	sex: "0" | "1";
 	phone: string;
 	birth: Date | null;

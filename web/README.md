@@ -1,1 +1,4 @@
-# Vue3 + TypeScript + Vite 模板
+# 留言箱
+
+node -v
+v18.19.0

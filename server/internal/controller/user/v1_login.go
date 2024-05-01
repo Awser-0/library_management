@@ -31,7 +31,7 @@ func (c *ControllerV1) Login() func(r *ghttp.Request) {
 			panic(gerror.Wrap(err, "token 生成失败"))
 		}
 		result.OK.SetMsg("登录成功").SetData(g.Map{
-			"user":  userHandle(*user),
+			"user":  user,
 			"token": token,
 		}).ToWriteJson(r)
 	}
